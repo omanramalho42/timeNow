@@ -1,6 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 
+import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
+
+
+import { lightTheme, darkTheme } from './src/styles/theme';
+import { DefaultTheme } from 'styled-components/native';
+import { ContainerApp } from './src/styles/global/style';
 
 import { 
   useFonts, 
@@ -10,13 +16,33 @@ import {
 } from '@expo-google-fonts/roboto'
 
 import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './src/styles/theme';
 
-import Home from './src/screens/Home'
-import { useState } from 'react';
-import { DefaultTheme } from 'styled-components/native';
+import Home from './src/screens/Home';
+
+import { Header } from './src/components/Header';
 
 export default function App() {
+
+  const [toggleTheme, setToggleTheme] = useState<DefaultTheme>(darkTheme);
+  const [enable, setEnable] = useState(false);
+
+  const handleToggleTheme = () => {
+      if(toggleTheme === darkTheme) {
+        try {
+          setToggleTheme(lightTheme);
+          setEnable(true);
+        } catch (err) {
+          console.log(err);
+        }
+      } else if(toggleTheme === lightTheme) { 
+          try {
+            setToggleTheme(darkTheme);
+            setEnable(false);
+          } catch (err) {
+            console.log(err);
+          }
+      }
+    }
 
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
@@ -28,12 +54,20 @@ export default function App() {
     <AppLoading />
   }
 
-  const [toggleTheme, setToggleTheme] = useState<DefaultTheme>(darkTheme);
-
   return (
     <ThemeProvider theme={toggleTheme}>
+      <StatusBar 
+        animated={true} 
+        backgroundColor='white'
+      />
+      <ContainerApp>
+        <Header
+          enable={enable} 
+          handleToggleTheme={handleToggleTheme}
+        />
+      </ContainerApp>
       <Home />
-      <StatusBar />
+
     </ThemeProvider>
   );
 }
