@@ -10,9 +10,11 @@ import {
 } from '@expo-google-fonts/roboto'
 
 import { ThemeProvider } from 'styled-components';
-import theme from './src/styles/theme';
+import { lightTheme, darkTheme } from './src/styles/theme';
 
 import Home from './src/screens/Home'
+import { useState } from 'react';
+import { DefaultTheme } from 'styled-components/native';
 
 export default function App() {
 
@@ -26,8 +28,10 @@ export default function App() {
     <AppLoading />
   }
 
+  const [toggleTheme, setToggleTheme] = useState<DefaultTheme>(darkTheme);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={toggleTheme}>
       <Home />
       <StatusBar />
     </ThemeProvider>

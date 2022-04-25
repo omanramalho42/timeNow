@@ -5,11 +5,22 @@ export const Container = styled.View`
     flex: 1;
 
     justify-content: center;
+    align-items: center;
 
-    margin: auto;
+    background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Title = styled.Text`
-    font-size: ${RFPercentage(2.5)}px;
+    font-size: ${RFPercentage(5)}px;
+    color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Temperature = styled.Text`
+    font-size: ${RFPercentage(3.75)}px;
+    color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Location = styled.Text`
+    font-size: ${RFPercentage(3)}px;
     color: ${({ theme }) => theme.colors.text};
 `;
