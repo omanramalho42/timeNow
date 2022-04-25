@@ -9,7 +9,11 @@ interface HeaderProps {
     handleToggleTheme: () => void;
 }
 
-export const Header = ({ handleToggleTheme, enable }: HeaderProps) => {
+export const Header = ({ 
+    handleToggleTheme, 
+    enable 
+}: HeaderProps) => {
+    
     return (
         <Container>
             <Switch

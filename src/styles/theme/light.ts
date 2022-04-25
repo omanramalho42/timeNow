@@ -14,7 +14,7 @@ export const lightTheme: myTheme = {
 
         input: '',
         button: '',
-        text: '#a1a1a1',
+        text: '#111',
 
         danger: '',
         warning: '',
