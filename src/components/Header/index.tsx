@@ -1,8 +1,14 @@
 import React from 'react';
 
-import { Switch } from 'react-native';
+import { Switch, TouchableOpacity } from 'react-native';
 
-import { Container } from './styles';
+import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+
+import { 
+    Container, 
+    ContentToggle 
+} from './styles';
 
 interface HeaderProps {
     enable: boolean;
@@ -16,13 +22,25 @@ export const Header = ({
     
     return (
         <Container>
-            <Switch
-                trackColor={{ false: "#767577", true: "#525252" }}
-                thumbColor={enable ? "#1cf100" : "#f4f3f4"} 
-                ios_backgroundColor="#3e3e3e"
-                value={enable}
-                onChange={handleToggleTheme} 
-            />
+            
+            <TouchableOpacity onPress={() => {}}>
+                <AntDesign name="heart" size={24} color="red" />
+            </TouchableOpacity> 
+
+            <ContentToggle>
+                <Switch
+                    trackColor={{ false: "#767577", true: "#525252" }}
+                    thumbColor={enable ? "#1cf100" : "#f4f3f4"} 
+                    ios_backgroundColor="#3e3e3e"
+                    value={enable}
+                    onChange={handleToggleTheme} 
+                />
+            </ContentToggle>
+            
+            <TouchableOpacity onPress={() => {}}>
+                <Ionicons name="add-circle" size={32} color="green" />
+            </TouchableOpacity> 
+
         </Container>
     )
 }

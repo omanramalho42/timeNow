@@ -16,10 +16,10 @@ export const darkTheme: myTheme = {
         button: '',
         text: '#e0e0e0',
     
-        danger: '',
-        warning: '',
-        success: '',
-        info: '',
+        danger: '#FF0000',
+        warning: '#FF0AAA',
+        success: '#FFF000',
+        info: '#1714d9',
     },
 
     fonts: {

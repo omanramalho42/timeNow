@@ -4,7 +4,7 @@ export const lightTheme: myTheme = {
     title: 'light',
     
     colors: {
-        primary: '#707070',
+        primary: '#d9d9d9',
         secondary: '#e0e0e0',
 
         effect: '#1714d9',
@@ -19,7 +19,7 @@ export const lightTheme: myTheme = {
         danger: '',
         warning: '',
         success: '',
-        info: '',
+        info: '#1714d9',
     },
 
     fonts: {

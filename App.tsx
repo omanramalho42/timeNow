@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
+import { View } from 'react-native';
+
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
-
 
 import { lightTheme, darkTheme } from './src/styles/theme';
 import { DefaultTheme } from 'styled-components/native';
@@ -27,22 +28,22 @@ export default function App() {
   const [enable, setEnable] = useState(false);
 
   const handleToggleTheme = () => {
-      if(toggleTheme === darkTheme) {
+    if(toggleTheme === darkTheme) {
+      try {
+        setToggleTheme(lightTheme);
+        setEnable(true);
+      } catch (err) {
+        console.log(err);
+      }
+    } else if(toggleTheme === lightTheme) { 
         try {
-          setToggleTheme(lightTheme);
-          setEnable(true);
+          setToggleTheme(darkTheme);
+          setEnable(false);
         } catch (err) {
           console.log(err);
         }
-      } else if(toggleTheme === lightTheme) { 
-          try {
-            setToggleTheme(darkTheme);
-            setEnable(false);
-          } catch (err) {
-            console.log(err);
-          }
-      }
     }
+  }
 
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
@@ -51,23 +52,27 @@ export default function App() {
   });
 
   if(!fontsLoaded) {
-    <AppLoading />
+    return <AppLoading />
   }
 
   return (
     <ThemeProvider theme={toggleTheme}>
-      <StatusBar 
-        animated={true} 
-        backgroundColor='white'
-      />
-      <ContainerApp>
-        <Header
-          enable={enable} 
-          handleToggleTheme={handleToggleTheme}
+      <View style={{ flex: 1, padding: 5 }}>
+        <StatusBar 
+          animated={true} 
+          backgroundColor='white'
         />
-      </ContainerApp>
-      <Home />
+        
+        <Home />
+        
+        <ContainerApp>
+          <Header
+            enable={enable} 
+            handleToggleTheme={handleToggleTheme}
+          />
+        </ContainerApp>
 
+      </View>
     </ThemeProvider>
   );
 }
