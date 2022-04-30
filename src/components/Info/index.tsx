@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import { ref, set, push, child } from 'firebase/database';
+import { ref, set, push, child, getDatabase, get } from 'firebase/database';
 import { db } from '../../Config';
+import { database } from '../../Database';
 
 import uuid from 'react-native-uuid';
 
@@ -18,6 +19,7 @@ import {
     TextInfo, 
     IconView 
 } from './styles';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface LocalTimeProps {
     altitude: string;
@@ -115,6 +117,17 @@ export const Info = ({ geoLocation }: any) => {
         }).catch((err) => {
             console.log(err);
         });
+
+        // const myDoc = doc(database, "favoritos", "favorito");
+        // const docData = {
+        //     "id": id,
+        //     "favorite": true,
+        //     "location": location
+        // };
+
+        // setDoc(myDoc, docData).then(() => {
+        //     window.alert("Cidade adicionada a lista de favoritos!")
+        // }).catch((error) => { window.alert(error.message)});
   }
 
    const [dataSky,setDataSky] = useState<SkyProps>({

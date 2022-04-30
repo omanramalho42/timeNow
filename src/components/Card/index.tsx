@@ -290,7 +290,7 @@ export const Card = ({ favorite } : FavoriteProps) => {
                     </TouchableOpacity>
                 </View>
             ))}
-
+            
             <CardContainer>
                 
                 <CardContent>

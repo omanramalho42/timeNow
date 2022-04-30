@@ -151,6 +151,11 @@ export const TimeIconSky = ({ dataSky }: SkyProps) => {
             <Icon>🌙</Icon>  
         )   
     }
+    if(icon === "09n" && sky === "shower rain") {
+        return (
+            <Icon>🌧</Icon>  
+        )   
+    }
     if(icon === "10n" && sky === "clear sky") {
         return (
             <Icon>🌙</Icon>  
