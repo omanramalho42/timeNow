@@ -4,8 +4,6 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 
 export const Container = styled.View`
     display: flex;
-
-    padding: ${RFPercentage(1)}px;
 `;
 
 export const CardContainer = styled.View`
@@ -14,11 +12,12 @@ export const CardContainer = styled.View`
 
     align-items: center;
     justify-content: space-between;
-    
-    /* box-shadow: 0 0 12px 6px rgba(0,0,0,0.2); */
 
-    padding: ${RFPercentage(1.5)}px;;
-    margin: ${RFPercentage(1)}px;
+    margin: 5px 0;
+    padding: 5px;
+
+    border-radius: 15px;
+    background-color:${({ theme }) => theme.colors.background} ;
 `;
 
 interface ContentProps {
@@ -45,7 +44,7 @@ export const Content = styled.View<ContentProps>`
     margin: ${RFPercentage(0.8)}px;
 
     padding: ${RFPercentage(1)}px;
-    min-width: 110px;
+    min-width: 105px;
 `;
 
 export const ContentFilter = styled.View`
@@ -79,9 +78,7 @@ export const ContainerSearchBox = styled.View`
     background-color: ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.colors.text};
 
-    margin: ${RFPercentage(3)}px;
-    margin-bottom: 0;
-    margin-top: 0;
+    margin: 15px 10px;
 
     padding: ${RFPercentage(1.5)}px;
 

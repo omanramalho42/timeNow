@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import { TouchableOpacity, Text } from 'react-native';
 
-import { Entypo, FontAwesome, Feather, Ionicons} from '@expo/vector-icons';
+import { Entypo, FontAwesome, Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import getCurrentWeather from '../../api/api';
-import * as Location from 'expo-location'
+import * as Location from 'expo-location';
 
-import { Card } from '../../components/Card';
-import { Info } from '../../components/Info';
-import { ListLocations } from '../../components/ListLocations';
+import { TimeIconSky } from '../../components/TimeIconSky';
 
 import {
     Container,
@@ -25,55 +23,13 @@ import {
     TextInfo,
     IconView,
     Data,
+    HeaderCard,
 } from './styles';
 
-
-interface TimeProps {
-    coord: {
-        lon: number;
-        lat: number;
-    };
-    weather: [
-        {
-            id: string;
-            main: string;
-            description: string;
-            icon: string;
-          }
-    ];
-    base: string;
-    main: {
-        temp: number;
-        feels_like: number;
-        temp_min: number;
-        temp_max: number;
-        pressure: number;
-        humidity: number;
-        visibility: number;
-    }
-    wind: {
-        speed: number;
-        deg: number;
-    };
-    clouds: {
-        all: number;
-    };
-    dt: number;
-    sys: {
-        type: number;
-        id: number;
-        country: string;
-        sunrise: number;
-        sunset: number;
-    };
-    timezone: number;
-    id: number;
-    name: string;
-    cod: number;
-}
+import AppLoading from 'expo-app-loading';
 
 interface LocalTimeProps {
-    altitude: string;
+    altitude: number;
     altitudeAccuracy: number;
     latitude: number;
     accuracy: number;
@@ -88,80 +44,73 @@ interface CardProps {
     turno: string;
 }
 
-const TimeIcon = ({icon}: string) => {
-
-    useEffect(() => {
-        console.log("sky:");
-        console.log(descriptionSky);
-    },[descriptionSky]);
-
-    let actualTime = new Date();
-    let hours = actualTime.getHours();
-
-    return (
-        <IconView>
-            <Text>
-            { (hours > 18 || hours < 5 && descriptionSky === "clear sky") 
-                ? ("🌙") 
-                : (hours > 18 || hours < 5 && descriptionSky === "broken clouds") 
-                ? ("☁")
-                : (hours > 5 || hours < 7)
-                ? ("🌄") 
-                : (hours > 7 || hours <= 18)
-                ? ("🌞")
-                : (hours > 18 || hours < 19)
-                ? ("🌅")
-                : ("")
-            }
-            </Text>  
-        </IconView>
-    )
-
+interface SkyProps {
+    dataSky: {
+        sky: "clear sky" | "few clouds" | "scattered clouds" | "broken clouds" | "shower rain" | "rain" | "thunderstorm" | "snow" | "mist" | undefined;
+        icon: "01d" | "01n" | "02d" | "02n" | "03d" | "03n" | "04d" | "04n" | "05d" | "05n" | "06d" | "06n" | "07d" | "07n" | "08d" | "08n" | "09d" | "09n" | "10d" | "10n" | "11d" | "11n" | "13d" | "13n" | "50d" | "50n" | undefined;
+    }
 }
 
-const Home:React.FC = () => {
-    
-    const city: CardProps = {
-        location: 'Fortaleza',
-        icon: 'sun',
-        turno: 'manha',
-    }
+const Home = () => {
 
+    const [translate, setTranslate] = useState(false);
     // LOCAL E MSG DE ERRO
-    const [location, setLocation] = useState<any>(null);
+    const [location, setLocation] = useState<LocalTimeProps>();
     const [errorMsg, setErrorMsg] = useState<string>("");
 
     //VARIAVEIS
-    const [currentTemperature,setCurrentTemperature] = useState();
-    const [temperatureMin,setTemperatureMin] = useState();
-    const [temperatureMax, setTemperatureMax] = useState();
-    const [locationName, setLocationName] = useState();
-    const [wind, setWind] = useState();
-    const [humidity, setHumidity] = useState();
-    const [descriptionSky, setDescriptionSky] = useState();
-    const [currentIcon, setCurrenticon] = useState();
+    const [currentTemperature,setCurrentTemperature] = useState<any>();
+    const [temperatureMin,setTemperatureMin] = useState<any>();
+    const [temperatureMax, setTemperatureMax] = useState<any>();
+    const [locationName, setLocationName] = useState<any>();
+    const [wind, setWind] = useState<any>();
+    const [humidity, setHumidity] = useState<any>();
+    const [descriptionSky, setDescriptionSky] = useState<any>();
+    const [currentIcon, setCurrenticon] = useState<any>();
+
+    const [dataSky,setDataSky] = useState<SkyProps>({
+        dataSky: {
+            sky: descriptionSky,
+            icon: currentIcon,
+        }
+    });
 
     async function getLocation(){
         let { status } = await Location.requestForegroundPermissionsAsync()
           if (status !== 'granted') {
             setErrorMsg('Permission to access location was denied')
-          }else{
+          } else {
             let location = await Location.getCurrentPositionAsync({})
-            await setLocation(location.coords)
+            console.log("location coords home screen");
+            console.log(location.coords);
+            await setLocation(location.coords);
           }
     }
 
+    const handleActiveTranslate = () => {
+        if(translate) {
+            window.alert("Conversão para fahrenheit");
+        } else {
+            window.alert("Conversão para Celcius");
+        }
+        setTranslate(!translate);
+    }
+
     // CONVERTENDO DE KLEVIN PARA CELCIUS
-    function convertKelvinToC(kelvin: any){
-        return parseInt(kelvin - 273);
+    const convertKelvinToC = (kelvin: any) => {
+        if(translate) {
+            return parseInt(kelvin - 273);
+        } else {
+            return parseInt((kelvin * (9/5)) - 459.67);
+        }  
     }
 
     async function setCurrentWeather(){
-        await getLocation()
+        await getLocation();
         // DATA CONTEM INFORMAÇÕES DA LOCALIZACAO PASSADA COMO PARAMETRO
         const data = await getCurrentWeather(location);
-        console.log("⚡🌞⛈🌥");
-        console.log(data);
+        // console.log("⚡");
+        // console.log(data);
 
         // Vem da api nessa ordem [currentTemperature, temperatureMin, temperatureMax, locationName, wind, humidity]
         setCurrentTemperature(convertKelvinToC(data[0]));
@@ -171,9 +120,17 @@ const Home:React.FC = () => {
         setWind(data[4]);
         setHumidity(data[5]);
         setDescriptionSky(data[6]);
+        setCurrenticon(data[7]);
+
+        setDataSky({
+            sky: descriptionSky,
+            icon: currentIcon,
+        });
     }
+
     //ESTADO DE TEMPO
     const [time, setTime] = useState<any>();
+    const [dataToday, setDataToday] = useState('');
     // FUNÇÃO QUE PEGA AS HORAS EXATAS
     const getCurrentTime = () => {
         let today = new Date();
@@ -183,11 +140,27 @@ const Home:React.FC = () => {
         return hours + ':' + minutes + ':' + seconds;
     }
 
+    const getCurrentData = () => {
+        var today: any = new Date();
+        var date = "";
+
+        let shortMonth = today.toLocaleString('en-us', { month: 'short' });
+        let day = today.toLocaleDateString('en-us', { weekday: 'long' });;
+
+        date = `${day}` + "  " + today.getDate() + " " +  shortMonth;
+        return date;
+    }
+
     useEffect(() => {
         let time = getCurrentTime();
         setTime(time);
+
         setCurrentWeather();
-    }, []);
+        
+        let dataToday = getCurrentData();
+        setDataToday(dataToday);
+
+    }, [translate]);
   
     let localTimeInfo = 'Waiting..';
     if (errorMsg) {
@@ -196,31 +169,40 @@ const Home:React.FC = () => {
       localTimeInfo = JSON.stringify(location);
     }
 
-    console.log(localTimeInfo);
-    console.log("time");
-    console.log(time);
+    // console.log(localTimeInfo);
+    // console.log("time");
+    // console.log(time);
+    // console.log("data today:");
+    // console.log(dataToday);
+
+    console.log("localizacao: " + locationName);
+
+    // if(locationName === undefined) {
+    //     return <AppLoading />
+    // }
 
     return (
         <Container>
             <AtualCityVisualizer>
                 
-                <Local>
-                    <Entypo name="location-pin" size={24} color="white" />
-                    <LocalText>{locationName}</LocalText>
-                </Local>
+                <TouchableOpacity onPress={() => handleActiveTranslate()}>
+                    <MaterialIcons name="g-translate" size={24} color="white" />
+                </TouchableOpacity>
+                
+                <HeaderCard>
+                    <Local>
+                        <Entypo name="location-pin" size={24} color="white" />
+                        <LocalText>{locationName}</LocalText>
+                    </Local>
+                </HeaderCard>
+
 
                 <OverView>
-                    <TextInfo>textInfo</TextInfo>
+                    <TextInfo>{time}</TextInfo>
                 </OverView>
                 
                 <IconView>
-                    {/* <TimeIcon descriptionSky={descriptionSky}/> */}
-                    {descriptionSky === "clear sky" 
-                        ? "🌞" 
-                        : "broken clouds" 
-                        ? "⛈" 
-                        : ""
-                    }
+                    <TimeIconSky dataSky={dataSky} />
                 </IconView>
 
                 {/* <TouchableOpacity onPress={() => setCurrentWeather()}>
@@ -229,13 +211,13 @@ const Home:React.FC = () => {
 
                 <Content>
                     <Temperature>
-                        {currentTemperature}°
+                        {currentTemperature} {translate ? "°C" : "°F"}
                     </Temperature>
                     <Title>
                         {descriptionSky}
                     </Title>
                     <Data>
-                        Monday 17 May
+                        {dataToday}
                     </Data>
                 </Content>
 
@@ -244,7 +226,7 @@ const Home:React.FC = () => {
                     <ContainerInfo>
                         <Feather name="wind" size={24} color="white" />
                         <LocalText>{wind}</LocalText>
-                        <TextInfo>wind</TextInfo>
+                        <TextInfo>wind km/h</TextInfo>
                     </ContainerInfo>
 
                     <ContainerInfo>
@@ -262,11 +244,6 @@ const Home:React.FC = () => {
                 </ContentInfo>
 
             </AtualCityVisualizer>
-
-            {/* <ListLocations /> */}
-            {/* <Card city={city} />
-            <Info /> */}
-
         </Container>
     )
 }

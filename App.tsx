@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-import { View } from 'react-native';
+import { View } from 'react-native';7
+
+import { NavigationContainer } from '@react-navigation/native'
 
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
@@ -19,8 +21,12 @@ import {
 import { ThemeProvider } from 'styled-components';
 
 import Home from './src/screens/Home';
+import SearchCity from './src/screens/SearchCity';
 
 import { Header } from './src/components/Header';
+import FavoritesList from './src/screens/FavoritesList';
+import { MenuBottom } from './src/components/MenuBottom';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
 
@@ -57,22 +63,26 @@ export default function App() {
 
   return (
     <ThemeProvider theme={toggleTheme}>
-      <View style={{ flex: 1, padding: 5 }}>
-        <StatusBar 
-          animated={true} 
-          backgroundColor='white'
-        />
-        
-        <Home />
-        
+      <SafeAreaView style={{ flex: 1, paddingHorizontal: 5 }}>
         <ContainerApp>
-          <Header
-            enable={enable} 
-            handleToggleTheme={handleToggleTheme}
+          <StatusBar 
+            animated={true} 
+            backgroundColor='white'
           />
+          
+          <>
+            <Header
+              enable={enable} 
+              handleToggleTheme={handleToggleTheme}
+            />
+          </>
+          
+          <NavigationContainer>
+            <MenuBottom />
+          </NavigationContainer>
+          
         </ContainerApp>
-
-      </View>
+      </SafeAreaView>
     </ThemeProvider>
   );
 }

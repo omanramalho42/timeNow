@@ -13,7 +13,7 @@ export const darkTheme: myTheme = {
         background: '#000',
     
         input: '#242424',
-        button: '',
+        button: '#fff',
         text: '#e0e0e0',
     
         danger: '#FF0000',

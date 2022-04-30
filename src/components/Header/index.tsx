@@ -1,9 +1,6 @@
 import React from 'react';
 
-import { Switch, TouchableOpacity } from 'react-native';
-
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { Switch } from 'react-native';
 
 import { 
     Container, 
@@ -22,11 +19,6 @@ export const Header = ({
     
     return (
         <Container>
-            
-            <TouchableOpacity onPress={() => {}}>
-                <AntDesign name="heart" size={24} color="red" />
-            </TouchableOpacity> 
-
             <ContentToggle>
                 <Switch
                     trackColor={{ false: "#767577", true: "#525252" }}
@@ -36,11 +28,6 @@ export const Header = ({
                     onChange={handleToggleTheme} 
                 />
             </ContentToggle>
-            
-            <TouchableOpacity onPress={() => {}}>
-                <Ionicons name="add-circle" size={32} color="green" />
-            </TouchableOpacity> 
-
         </Container>
     )
 }

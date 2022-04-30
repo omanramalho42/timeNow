@@ -7,7 +7,7 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
 
-    padding: 20px;
+    padding: 10px;
 
     border-radius: 15px;
     background-color: ${({ theme }) => theme.colors.background};
@@ -29,7 +29,7 @@ export const ContainerInfo = styled.View`
 
     align-items: center;
 
-    padding: 0 20px;
+    padding: 0 30px;
 `;
 
 
@@ -38,7 +38,7 @@ export const AtualCityVisualizer = styled.View`
     flex-direction: column;
     
     align-items: center;
-    padding: 30px 0;
+    padding: 10px 0;
 `;
 
 export const Content = styled.View`
@@ -51,16 +51,24 @@ export const Content = styled.View`
     padding: 10px;
 `;
 
+export const HeaderCard = styled.View`
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    /* justify-content: space-around; */
+`;
+
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.fonts.medium};
-    font-size: ${RFPercentage(5.5)}px;
+    font-size: ${RFPercentage(4)}px;
 
     color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Temperature = styled.Text`
     font-family: ${({ theme }) => theme.fonts.bold};
-    font-size: ${RFPercentage(15)}px;
+    font-size: ${RFPercentage(10)}px;
 
     color: ${({ theme }) => theme.colors.text};
 `;
@@ -68,6 +76,7 @@ export const Temperature = styled.Text`
 export const Local = styled.View`
     display: flex;
     flex-direction: row;
+
     align-items: center;
 `;
 
@@ -93,7 +102,7 @@ export const OverView = styled.View`
 `;
 
 export const IconView = styled.Text`
-    font-size: ${RFPercentage(28)}px;
+    font-size: ${RFPercentage(20)}px;
 `;
 
 export const TextInfo = styled.Text`

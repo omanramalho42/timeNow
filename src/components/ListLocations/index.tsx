@@ -68,7 +68,6 @@ export const ListLocations = () => {
 
     return (
       <Container>
-
             <ContainerSearchBox>
                 <SearchBox 
                     value={search}

@@ -13,7 +13,7 @@ export const lightTheme: myTheme = {
         background: '#FFFFFF',
 
         input: '',
-        button: '',
+        button: '#fff',
         text: '#111',
 
         danger: '',
